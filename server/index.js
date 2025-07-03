@@ -21,4 +21,7 @@ app.use('/api/profile', profileRoutes);
 app.use('/api/interest', interestRoutes);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`API running at http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`✅ Server running on port ${PORT}`));
+app.get("/health", (req, res) => {
+  res.send("Kalyana Vaibhogam API is UP ✅");
+});
