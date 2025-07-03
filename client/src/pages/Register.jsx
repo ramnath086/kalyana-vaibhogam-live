@@ -9,7 +9,7 @@ export default function Register() {
   const submit = async () => {
     try {
       // ✅ Use shared API instance
-      await API.post('/auth/register', form);
+      await axios.post("https://kalyana-vaibhogam.onrender.com/api/auth/register", form);
       alert('Registered!');
       navigate('/');
     } catch (e) {
