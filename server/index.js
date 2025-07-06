@@ -4,7 +4,8 @@ const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-
+const otpRoutes = require("./routes/otp");
+app.use("/api/otp", otpRoutes);
 // ✅ Enable CORS for Vercel frontend
 app.use(
   cors({
