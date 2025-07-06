@@ -1,0 +1,2 @@
+.env".env"             # ?? Ensures it won't be pushed again
+".env" 
