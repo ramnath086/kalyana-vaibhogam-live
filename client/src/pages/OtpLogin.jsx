@@ -1,27 +1,24 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React, { useState } from 'react';
+import axios from 'axios';
 
 export default function OtpLogin() {
-  console.log("📦 OtpLogin.jsx loaded!");
+  console.log("🚀 OtpLogin component loaded!");
 
-  const [phone, setPhone] = useState("");
-  const [otp, setOtp] = useState("");
+  const [phone, setPhone] = useState('');
+  const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const sendOTP = async () => {
     setLoading(true);
     try {
-      const res = await axios.post(
-        "https://kalyana-vaibhogam.onrender.com/api/otp/send",
-        { phone }
-      );
+      const res = await axios.post('https://kalyana-vaibhogam.onrender.com/api/otp/send', { phone });
       console.log("✅ OTP Sent:", res.data);
-      alert("OTP sent to your phone number!");
+      alert("OTP sent successfully!");
       setOtpSent(true);
     } catch (err) {
-      console.error("❌ Error sending OTP:", err);
-      alert("Failed to send OTP. Please check the number and try again.");
+      console.error("❌ Failed to send OTP", err.message);
+      alert("Failed to send OTP. Check number format.");
     } finally {
       setLoading(false);
     }
@@ -30,53 +27,34 @@ export default function OtpLogin() {
   const verifyOTP = async () => {
     setLoading(true);
     try {
-      const res = await axios.post(
-        "https://kalyana-vaibhogam.onrender.com/api/otp/verify",
-        { phone, otp }
-      );
+      const res = await axios.post('https://kalyana-vaibhogam.onrender.com/api/otp/verify', { phone, otp });
       console.log("✅ OTP Verified:", res.data);
-      alert("Login successful ✅");
-
-      // Optionally store session/token here
-      // localStorage.setItem("token", res.data.token);
-
-      window.location.href = "/profile";
+      alert("OTP verified ✅");
+      window.location.href = '/profile';
     } catch (err) {
-      console.error("❌ OTP Verification Failed:", err);
-      alert("Invalid OTP. Please try again.");
+      console.error("❌ Verify failed", err.message);
+      alert("OTP verification failed");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>💍 Kalyana Vaibhogam</h1>
-      <h2>🔐 OTP Login</h2>
-      <p style={{ color: "green" }}>📢 OtpLogin component rendered successfully!</p>
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <h2>🔐 OTP Login Page</h2>
+      <p style={{ color: 'green' }}>Component reached! ✅</p>
 
       <input
         type="text"
         placeholder="Enter phone number (+91...)"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
-        style={{ padding: 10, margin: 10, width: 250 }}
+        style={{ padding: 10, width: 260 }}
       />
-
       <br />
 
       {!otpSent ? (
-        <button
-          onClick={sendOTP}
-          disabled={loading}
-          style={{
-            padding: "10px 20px",
-            backgroundColor: "#3498db",
-            color: "#fff",
-            border: "none",
-            cursor: "pointer",
-          }}
-        >
+        <button onClick={sendOTP} disabled={loading} style={{ padding: '10px 20px', marginTop: '10px' }}>
           {loading ? "Sending..." : "Send OTP"}
         </button>
       ) : (
@@ -86,20 +64,10 @@ export default function OtpLogin() {
             placeholder="Enter OTP"
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
-            style={{ padding: 10, margin: 10, width: 150 }}
+            style={{ padding: 10, width: 140, marginTop: 20 }}
           />
           <br />
-          <button
-            onClick={verifyOTP}
-            disabled={loading}
-            style={{
-              padding: "10px 20px",
-              backgroundColor: "#2ecc71",
-              color: "#fff",
-              border: "none",
-              cursor: "pointer",
-            }}
-          >
+          <button onClick={verifyOTP} disabled={loading} style={{ padding: '10px 20px', marginTop: '10px' }}>
             {loading ? "Verifying..." : "Verify OTP"}
           </button>
         </>
