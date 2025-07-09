@@ -1,74 +1,66 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 export default function OtpLogin() {
   console.log("🚀 OtpLogin component loaded!");
 
-  const [phone, setPhone] = useState('');
-  const [otp, setOtp] = useState('');
+  const [phone, setPhone] = useState("");
+  const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const sendOTP = async () => {
     setLoading(true);
     try {
-      const res = await axios.post('https://kalyana-vaibhogam.onrender.com/api/otp/send', { phone });
-      console.log("✅ OTP Sent:", res.data);
-      alert("OTP sent successfully!");
+      alert("📨 (Mock) OTP sent to " + phone + ". Use 123456.");
       setOtpSent(true);
     } catch (err) {
-      console.error("❌ Failed to send OTP", err.message);
-      alert("Failed to send OTP. Check number format.");
+      console.error("❌ OTP send failed:", err);
+      alert("Failed to send OTP");
     } finally {
       setLoading(false);
     }
   };
 
-  const verifyOTP = async () => {
-    setLoading(true);
-    try {
-      const res = await axios.post('https://kalyana-vaibhogam.onrender.com/api/otp/verify', { phone, otp });
-      console.log("✅ OTP Verified:", res.data);
-      alert("OTP verified ✅");
-      window.location.href = '/profile';
-    } catch (err) {
-      console.error("❌ Verify failed", err.message);
-      alert("OTP verification failed");
-    } finally {
-      setLoading(false);
+  const verifyOTP = () => {
+    if (otp === "123456") {
+      alert("✅ OTP Verified!");
+      window.location.href = "/profile";
+    } else {
+      alert("❌ Invalid OTP");
     }
   };
 
   return (
-    <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h2>🔐 OTP Login Page</h2>
-      <p style={{ color: 'green' }}>Component reached! ✅</p>
+    <div style={{ textAlign: "center", marginTop: "60px" }}>
+      <h2>🔐 OTP Login - Kalyana Vaibhogam</h2>
+      <p style={{ color: "green" }}>✅ Component rendering confirmed</p>
 
       <input
         type="text"
-        placeholder="Enter phone number (+91...)"
+        placeholder="Enter phone number"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
-        style={{ padding: 10, width: 260 }}
+        style={{ padding: 10, margin: 10, width: 250 }}
       />
       <br />
-
-      {!otpSent ? (
-        <button onClick={sendOTP} disabled={loading} style={{ padding: '10px 20px', marginTop: '10px' }}>
-          {loading ? "Sending..." : "Send OTP"}
+      {!otpSent && (
+        <button onClick={sendOTP} disabled={loading}>
+          {loading ? "Sending OTP..." : "Send OTP"}
         </button>
-      ) : (
+      )}
+      {otpSent && (
         <>
           <input
             type="text"
             placeholder="Enter OTP"
             value={otp}
             onChange={(e) => setOtp(e.target.value)}
-            style={{ padding: 10, width: 140, marginTop: 20 }}
+            style={{ padding: 10, marginTop: 20 }}
           />
           <br />
-          <button onClick={verifyOTP} disabled={loading} style={{ padding: '10px 20px', marginTop: '10px' }}>
-            {loading ? "Verifying..." : "Verify OTP"}
+          <button onClick={verifyOTP} style={{ marginTop: 10 }}>
+            Verify OTP
           </button>
         </>
       )}
